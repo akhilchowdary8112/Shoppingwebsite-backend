@@ -120,9 +120,9 @@ router.put("/:id", isAdmin, async (req, res) => {
 router.get("/findOne/:id", auth, async (req, res) => {
   try {
     const order = await Orders.findById(req.params.id);
-    if (req.user._id !== order.userId || !req.user.isAdmin)
-      return res.status(403).send("Acess denied .Not authorised...+");
-    else res.status(200).send(order);
+    if (req.user._id === order.userId || req.user.isAdmin)
+      return res.status(200).send(order);
+    else res.status(403).send("Acess denied .Not authorised...+");
   } catch (error) {
     res.status(500).send(error);
   }
